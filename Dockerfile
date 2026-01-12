@@ -34,4 +34,4 @@ RUN mkdir -p data/raw data/processed data/embeddings
 EXPOSE 3000
 
 # Default command runs the MCP server via stdio
-CMD ["node", "build/index.js"]
+CMD ["node", "build/src/index.js"]
