@@ -1,12 +1,34 @@
 version: '3.8'
 
 services:
+  # MCP Server (stdio mode for Claude Code)
   fiqh-mcp-server:
     build: .
     container_name: fiqh-mcp-server
     restart: unless-stopped
+    stdin_open: true  # Keep stdin open for MCP
+    tty: true        # Allocate a pseudo-TTY
+    command: ["tail", "-f", "/dev/null"]  # Keep container running
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CHROMA_COLLECTION=fiqh_embeddings
+      - EMBEDDING_MODEL=text-embedding-3-small
+      - DATA_PATH=/app/data/processed/fiqh_database.json
+      - CHROMA_PATH=/app/data/embeddings/chroma_db
+    volumes:
+      - ./data:/app/data
+      - ./.env:/app/.env:ro
+    networks:
+      - fiqh-network
+
+  # REST API Server (HTTP endpoints)
+  fiqh-api-server:
+    build: .
+    container_name: fiqh-api-server
+    restart: unless-stopped
     ports:
-      - "3001:3000"  # REST API port
+      - "3002:3000"  # REST API port
+    command: ["node", "build/api/index.js"]
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - CHROMA_COLLECTION=fiqh_embeddings
@@ -16,11 +38,8 @@ services:
       - API_KEY=${API_KEY:-change-this-api-key}
       - PORT=3000
     volumes:
-      # Mount data directory to persist embeddings and database
       - ./data:/app/data
-      # Optional: mount for config if needed
       - ./.env:/app/.env:ro
-    restart: unless-stopped
     networks:
       - fiqh-network
 
