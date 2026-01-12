@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  fiqh-mcp-server:
+    build: .
+    container_name: fiqh-mcp-server
+    restart: unless-stopped
+    ports:
+      - "3001:3000"  # REST API port
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CHROMA_COLLECTION=fiqh_embeddings
+      - EMBEDDING_MODEL=text-embedding-3-small
+      - DATA_PATH=/app/data/processed/fiqh_database.json
+      - CHROMA_PATH=/app/data/embeddings/chroma_db
+      - API_KEY=${API_KEY:-change-this-api-key}
+      - PORT=3000
+    volumes:
+      # Mount data directory to persist embeddings and database
+      - ./data:/app/data
+      # Optional: mount for config if needed
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    networks:
+      - fiqh-network
+
+networks:
+  fiqh-network:
+    driver: bridge
