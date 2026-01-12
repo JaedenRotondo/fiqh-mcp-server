@@ -1,0 +1,49 @@
+{
+  "name": "fiqh-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for querying Islamic fiqh rulings from classical texts and four madhabs",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsx watch src/index.ts",
+    "api": "tsx watch api/index.ts",
+    "test": "jest",
+    "lint": "eslint src api --ext .ts"
+  },
+  "keywords": [
+    "mcp",
+    "islam",
+    "fiqh",
+    "hadith",
+    "fatwa",
+    "islamic-jurisprudence"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "chromadb": "^1.9.2",
+    "openai": "^4.77.3",
+    "zod": "^3.24.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/express": "^5.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/jest": "^29.5.14",
+    "typescript": "^5.7.3",
+    "tsx": "^4.19.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "eslint": "^9.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1"
+  }
+}
