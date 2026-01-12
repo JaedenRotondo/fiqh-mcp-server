@@ -33,5 +33,6 @@ RUN mkdir -p data/raw data/processed data/embeddings
 # Expose port for REST API
 EXPOSE 3000
 
-# Default command runs the MCP server via stdio
-CMD ["node", "build/src/index.js"]
+# Default command runs the REST API server
+# Use build/src/index.js for stdio MCP mode
+CMD ["node", "build/api/index.js"]
